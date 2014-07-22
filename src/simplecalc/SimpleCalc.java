@@ -136,7 +136,13 @@ public class SimpleCalc implements ActionListener{
         String action = event.getActionCommand();
         
         //set the text using the Action Command text
-        numberCalc.setText(action);       
+        if (!numberCalc.getText().equals("")){
+            numberCalc.setText( numberCalc.getText() + action );  
+        }
+        else {
+            numberCalc.setText(action);  
+        }
+        
     }
     
     private class OperatorAction implements ActionListener
