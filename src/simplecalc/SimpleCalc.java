@@ -71,22 +71,20 @@ public class SimpleCalc implements ActionListener{
         guiFrame.add(buttonPanel, BorderLayout.CENTER);
         
         //Add the number buttons
-        for (int i=1;i<10;i++)
+        for (int i=0;i<10;i++)
         {
             addButton(buttonPanel, String.valueOf(i));
         }
 
-        JButton addButton = new JButton("+");
-        addButton.setActionCommand("+");
+        JButton additionButton = new JButton("+");
+        additionButton.setActionCommand("+");
+        OperatorAction additionAction = new OperatorAction(1);
+        additionButton.addActionListener(additionAction);
         
-        OperatorAction subAction = new OperatorAction(1);
-        addButton.addActionListener(subAction);
-        
-        JButton subButton = new JButton("-");
-        subButton.setActionCommand("-");
-        
-        OperatorAction addAction = new OperatorAction(2);
-        subButton.addActionListener(addAction);
+        JButton subtractionButton = new JButton("-");
+        subtractionButton.setActionCommand("-");
+        OperatorAction subtractionAction = new OperatorAction(2);
+        subtractionButton.addActionListener(subtractionAction);
         
         JButton equalsButton = new JButton("=");
         equalsButton.setActionCommand("=");
@@ -112,8 +110,8 @@ public class SimpleCalc implements ActionListener{
             }
         });
         
-        buttonPanel.add(addButton);
-        buttonPanel.add(subButton);
+        buttonPanel.add(additionButton);
+        buttonPanel.add(subtractionButton);
         buttonPanel.add(equalsButton);
         guiFrame.setVisible(true);  
     }
