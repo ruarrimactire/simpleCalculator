@@ -136,7 +136,7 @@ public class SimpleCalc implements ActionListener{
         String action = event.getActionCommand();
         
         //set the text using the Action Command text
-        if (!numberCalc.getText().equals("")){
+        if ( added.isIntNumber(action) ){
             numberCalc.setText( numberCalc.getText() + action );  
         }
         else {
@@ -156,8 +156,38 @@ public class SimpleCalc implements ActionListener{
         
         public void actionPerformed(ActionEvent event)
         {
-            currentCalc = Integer.parseInt(numberCalc.getText()); 
+            currentCalc = Integer.parseInt(numberCalc.getText());
+            
+            {
+                int number = Integer.parseInt(numberCalc.getText()); 
+                if (calcOperation == 1)
+                {
+                    int calculate = currentCalc  + number;
+                    numberCalc.setText(Integer.toString(calculate));
+                }
+                else if (calcOperation == 2)
+                {
+                    int calculate = currentCalc  - number;
+                    numberCalc.setText(Integer.toString(calculate));
+                }
+            }
+
+            numberCalc.setText( "" );
             calcOperation = operator;
+            
+
         }
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+class added {
+    public static boolean isIntNumber(String numero) {
+        try {
+            Integer.parseInt(numero);
+            return true;
+            }
+        catch(Exception e){return false;}
+    }
+}
+////////////////////////////////////////////////////////////////////////////////
