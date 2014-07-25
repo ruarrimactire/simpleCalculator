@@ -91,38 +91,24 @@ public class SimpleCalc implements ActionListener{
         
         JButton equalsButton = new JButton("=");
         equalsButton.setActionCommand("=");
-        equalsButton.addActionListener(new ActionListener()
-        {
+        equalsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent event)
-            {
+            public void actionPerformed(ActionEvent event) {
                 if (!numberCalc.getText().isEmpty())
-                {
-                    int number = Integer.parseInt(numberCalc.getText()); 
-                    if (calcOperation == 1)
-                    {
-                        int calculate = currentCalc  + number;
-                        numberCalc.setText(Integer.toString(calculate));
-                    }
-                    else if (calcOperation == 2)
-                    {
-                        int calculate = currentCalc  - number;
-                        numberCalc.setText(Integer.toString(calculate));
-                    }
-                }
+                    calcola();
             }
         });
         
         buttonPanel.add(additionButton);
         buttonPanel.add(subtractionButton);
         buttonPanel.add(equalsButton);
+        
         guiFrame.setVisible(true);  
     }
     
     //All the buttons are following the same pattern
     //so create them all in one place.
-    private void addButton(Container parent, String name)
-    {
+    private void addButton(Container parent, String name) {
         JButton but = new JButton(name);
         but.setActionCommand(name);
         but.addActionListener(this);
@@ -133,8 +119,7 @@ public class SimpleCalc implements ActionListener{
     //easier to make the class implement the ActionListener
     //interface and control the button clicks from one place
     @Override
-    public void actionPerformed(ActionEvent event)
-    {
+    public void actionPerformed(ActionEvent event) {
         //get the Action Command text from the button
         String action = event.getActionCommand();
         
@@ -147,38 +132,36 @@ public class SimpleCalc implements ActionListener{
         }
         
     }
-    
-    private class OperatorAction implements ActionListener
-    {
+
+    /**
+     *
+     */
+    public void calcola(){
+        int number = Integer.parseInt(numberCalc.getText()); 
+        if (calcOperation == 1)
+        {
+            int calculate = currentCalc  + number;
+            numberCalc.setText(Integer.toString(calculate));
+        }
+        else if (calcOperation == 2)
+        {
+            int calculate = currentCalc  - number;
+            numberCalc.setText(Integer.toString(calculate));
+        }
+    }
+
+    private class OperatorAction implements ActionListener {
         private int operator;
         
-        public OperatorAction(int operation)
-        {
+        public OperatorAction(int operation) {
             operator = operation;
         }
         
-        public void actionPerformed(ActionEvent event)
-        {
+        public void actionPerformed(ActionEvent event) {
             currentCalc = Integer.parseInt(numberCalc.getText());
-            
-            {
-                int number = Integer.parseInt(numberCalc.getText()); 
-                if (calcOperation == 1)
-                {
-                    int calculate = currentCalc  + number;
-                    numberCalc.setText(Integer.toString(calculate));
-                }
-                else if (calcOperation == 2)
-                {
-                    int calculate = currentCalc  - number;
-                    numberCalc.setText(Integer.toString(calculate));
-                }
-            }
-
+            calcola();
             numberCalc.setText( "" );
             calcOperation = operator;
-            
-
         }
     }
 }
