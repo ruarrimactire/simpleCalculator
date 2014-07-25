@@ -80,6 +80,7 @@ public class SimpleCalc implements ActionListener{
         addButton(buttonPanel, "-");
         addButton(buttonPanel, "/");
         addButton(buttonPanel, "*");
+        addButton(buttonPanel, "=");
         addButton(buttonPanel, "MOD");
                 
         JButton equalsButton = new JButton("=");
@@ -142,15 +143,19 @@ public class SimpleCalc implements ActionListener{
         }
         
         public void actionPerformed(ActionEvent event) {
-            currentCalc = Integer.parseInt(numberCalc.getText());
-            numberCalc.setText( Integer.toString( 
-                    (int)added.calcola( 
-                            (float)currentCalc , calcOperation , 
-                            Float.parseFloat(numberCalc.getText()) 
-                    ) 
-            ) );
-            numberCalc.setText( "" );
-            calcOperation = operator;
+            float left = currentCalc;
+            String schermo = numberCalc.getText();
+            float right = Float.parseFloat(schermo);
+            if (!schermo.isEmpty())
+                currentCalc = (int)added.calcola( 
+                    left , 
+                    calcOperation , 
+                    right 
+                );
+            numberCalc.setText( Integer.toString( currentCalc ));
+            // numberCalc.setText( "" );
+            if (operator != '=') 
+                calcOperation = operator;
         }
     }
 }
@@ -180,6 +185,9 @@ class added {
         }
         else if (calcOperation == '*') {
             return left * right;    
+        }
+        else if (calcOperation == '=') {
+            return left;    
         }
         else if (calcOperation == 'M') {
             return left % right;    
