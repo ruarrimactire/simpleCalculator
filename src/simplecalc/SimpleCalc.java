@@ -24,7 +24,7 @@ public class SimpleCalc implements ActionListener{
     JFrame guiFrame;
     JPanel buttonPanel;
     JTextField numberCalc;
-    char calcOperation ;
+    String calcOperation ;
     int currentCalc;
     
     //Note: Typically the main method will be in a
@@ -92,7 +92,7 @@ public class SimpleCalc implements ActionListener{
         JButton but = new JButton(name);
         but.setActionCommand(name);
         if ( !added.isIntNumber(name) && name != "=" ) {
-            but.addActionListener( new OperatorAction(name.charAt(0)) );
+            but.addActionListener( new OperatorAction(name) );
         } 
         else if ( name == "=" ) {
             but.addActionListener( new EqualAction() );
@@ -122,9 +122,9 @@ public class SimpleCalc implements ActionListener{
     }
 
     private class OperatorAction implements ActionListener {
-        private char operator;
+        private String operator;
         
-        public OperatorAction(char operation) {
+        public OperatorAction(String operation) {
             operator = operation;
         }
         
@@ -170,20 +170,20 @@ class added {
     /**
      *
      */
-    public static float calcola(float left, char calcOperation, float right){
-        if (calcOperation == '+') {
+    public static float calcola(float left, String calcOperation, float right){
+        if (calcOperation == "+") {
             return left + right;
         }
-        else if (calcOperation == '-') {
+        else if (calcOperation == "-") {
             return left - right;    
         }
-        else if (calcOperation == '/') {
+        else if (calcOperation == "/") {
             return left / right;    
         }
-        else if (calcOperation == '*') {
+        else if (calcOperation == "*") {
             return left * right;    
         }
-        else if (calcOperation == 'M') {
+        else if (calcOperation == "MOD") {
             return left % right;    
         }
         else {
