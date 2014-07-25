@@ -81,23 +81,7 @@ public class SimpleCalc implements ActionListener{
         addButton(buttonPanel, "/");
         addButton(buttonPanel, "*");
         addButton(buttonPanel, "MOD");
-                
-        JButton equalsButton = new JButton("=");
-        equalsButton.setActionCommand("=");
-        equalsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                if (!numberCalc.getText().isEmpty())
-                    numberCalc.setText( Integer.toString( 
-                        (int)added.calcola( 
-                                (float)currentCalc , calcOperation , 
-                                Float.parseFloat(numberCalc.getText()) 
-                        ) 
-                    ) );
-            }
-        });
-        
-        buttonPanel.add(equalsButton);
+        addButton(buttonPanel, "=");
         
         guiFrame.setVisible(true);  
     }
@@ -107,10 +91,13 @@ public class SimpleCalc implements ActionListener{
     private void addButton(Container parent, String name) {
         JButton but = new JButton(name);
         but.setActionCommand(name);
-        if ( !added.isIntNumber(name) ) {
-            OperatorAction operator = new OperatorAction(name.charAt(0));
-            but.addActionListener(operator);
-        } else {
+        if ( !added.isIntNumber(name) && name != "=" ) {
+            but.addActionListener( new OperatorAction(name.charAt(0)) );
+        } 
+        else if ( name == "=" ) {
+            but.addActionListener( new EqualAction() );
+        } 
+        else {
             but.addActionListener(this);
         }
         parent.add(but);
@@ -145,12 +132,27 @@ public class SimpleCalc implements ActionListener{
             currentCalc = Integer.parseInt(numberCalc.getText());
             numberCalc.setText( Integer.toString( 
                     (int)added.calcola( 
-                            (float)currentCalc , calcOperation , 
+                            (float)currentCalc , 
+                            calcOperation , 
                             Float.parseFloat(numberCalc.getText()) 
                     ) 
             ) );
             numberCalc.setText( "" );
             calcOperation = operator;
+        }
+    }
+
+    private class EqualAction implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            String schermo = numberCalc.getText();
+            if ( !schermo.isEmpty() )
+                numberCalc.setText( Integer.toString( 
+                    (int)added.calcola( 
+                            (float)currentCalc , 
+                            calcOperation , 
+                            Float.parseFloat(schermo) 
+                    ) 
+                ) );
         }
     }
 }
