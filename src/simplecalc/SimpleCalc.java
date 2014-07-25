@@ -67,15 +67,18 @@ public class SimpleCalc implements ActionListener{
         buttonPanel = new JPanel();
                
         //Make a Grid that has three rows and four columns
-        buttonPanel.setLayout(new GridLayout(4,3));   
+        buttonPanel.setLayout(new GridLayout(5,3));   
         guiFrame.add(buttonPanel, BorderLayout.CENTER);
         
         //Add the number buttons
-        for (int i=0;i<10;i++)
+        for (int i=1;i<10;i++)
         {
             addButton(buttonPanel, String.valueOf(i));
         }
-
+        addButton(buttonPanel, String.valueOf(0));
+        addButton(buttonPanel, String.valueOf(0));
+        addButton(buttonPanel, String.valueOf(0));
+        
         JButton additionButton = new JButton("+");
         additionButton.setActionCommand("+");
         OperatorAction additionAction = new OperatorAction(1);
