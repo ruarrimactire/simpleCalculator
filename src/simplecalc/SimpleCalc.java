@@ -91,7 +91,7 @@ public class SimpleCalc implements ActionListener{
     private void addButton(Container parent, String name) {
         JButton but = new JButton(name);
         but.setActionCommand(name);
-        if ( !added.isIntNumber(name) ) {
+        if ( !usoComune.isIntNumber(name) ) {
             but.addActionListener( new OperatorAction(name) );
         } 
         else {
@@ -109,7 +109,7 @@ public class SimpleCalc implements ActionListener{
         String action = event.getActionCommand();
         
         //set the text using the Action Command text
-        if ( added.isIntNumber(action) ){
+        if ( usoComune.isIntNumber(action) ){
             numberCalc.setText( numberCalc.getText() + action );  
         }
         else {
@@ -126,29 +126,26 @@ public class SimpleCalc implements ActionListener{
         }
         
         public void actionPerformed(ActionEvent event) {
-            if (operator != "=") {
-                currentCalc = Integer.parseInt(numberCalc.getText());
-            }
             String schermo = numberCalc.getText();
             if ( !schermo.isEmpty() ) {
                 numberCalc.setText( Integer.toString( 
-                        (int)added.calcola( 
+                        (int)usoComune.calcola( 
                                 (float)currentCalc , 
                                 calcOperation , 
                                 Float.parseFloat(schermo) 
                         ) 
                 ) );
             }
-            if (operator != "=") {
+            if (!operator.equals("=")) {
+                currentCalc = Integer.parseInt(schermo);
                 numberCalc.setText( "" );
                 calcOperation = operator;
             }
         }
     }
 }
-
 ////////////////////////////////////////////////////////////////////////////////
-class added {
+class usoComune {
     public static boolean isIntNumber(String numero) {
         try {
             Integer.parseInt(numero);
@@ -158,22 +155,21 @@ class added {
     }
 
     /**
-     *
      */
     public static float calcola(float left, String calcOperation, float right){
-        if (calcOperation == "+") {
+        if ("+".equals(calcOperation)) {
             return left + right;
         }
-        else if (calcOperation == "-") {
+        else if ("-".equals(calcOperation)) {
             return left - right;    
         }
-        else if (calcOperation == "/") {
+        else if ("/".equals(calcOperation)) {
             return left / right;    
         }
-        else if (calcOperation == "*") {
+        else if ("*".equals(calcOperation)) {
             return left * right;    
         }
-        else if (calcOperation == "MOD") {
+        else if ("MOD".equals(calcOperation)) {
             return left % right;    
         }
         else {
@@ -182,4 +178,4 @@ class added {
     }
 
 }
-////////////////////////////////////////////////////////////////////////////////
+
