@@ -23,6 +23,7 @@ public class SimpleCalc implements ActionListener{
  
     JFrame guiFrame;
     JPanel buttonPanel;
+    JTextField prevCalc;
     JTextField numberCalc;
     String calcOperation ;
     int currentCalc;
@@ -58,17 +59,23 @@ public class SimpleCalc implements ActionListener{
         //This will center the JFrame in the middle of the screen
         guiFrame.setLocationRelativeTo(null);
         
+        prevCalc = new JTextField();
+        prevCalc.setHorizontalAlignment(JTextField.RIGHT);
+        prevCalc.setEditable(false);
+        
+        guiFrame.add(prevCalc, BorderLayout.NORTH);
+        
         numberCalc = new JTextField();
         numberCalc.setHorizontalAlignment(JTextField.RIGHT);
         numberCalc.setEditable(false);
         
-        guiFrame.add(numberCalc, BorderLayout.NORTH);
+        guiFrame.add(numberCalc, BorderLayout.CENTER);
         
         buttonPanel = new JPanel();
                
         //Make a Grid that has three rows and four columns
         buttonPanel.setLayout(new GridLayout(6,3));   
-        guiFrame.add(buttonPanel, BorderLayout.CENTER);
+        guiFrame.add(buttonPanel, BorderLayout.SOUTH);
         
         //Add the number buttons
         for (int i=1;i<10;i++)
@@ -137,6 +144,7 @@ public class SimpleCalc implements ActionListener{
                 ) );
             }
             if (!operator.equals("=")) {
+                prevCalc.setText(schermo + " " + operator);
                 currentCalc = Integer.parseInt(schermo);
                 numberCalc.setText( "" );
                 calcOperation = operator;
