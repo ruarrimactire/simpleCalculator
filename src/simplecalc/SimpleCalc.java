@@ -67,7 +67,7 @@ public class SimpleCalc implements ActionListener{
         buttonPanel = new JPanel();
                
         //Make a Grid that has three rows and four columns
-        buttonPanel.setLayout(new GridLayout(5,3));   
+        buttonPanel.setLayout(new GridLayout(6,3));   
         guiFrame.add(buttonPanel, BorderLayout.CENTER);
         
         //Add the number buttons
@@ -75,11 +75,12 @@ public class SimpleCalc implements ActionListener{
         {
             addButton(buttonPanel, String.valueOf(i));
         }
-        addButton(buttonPanel, String.valueOf(0));
-        addButton(buttonPanel, String.valueOf(0));
-        addButton(buttonPanel, String.valueOf(0));
+        addButton(buttonPanel, "0");
         addButton(buttonPanel, "+");
         addButton(buttonPanel, "-");
+        addButton(buttonPanel, "/");
+        addButton(buttonPanel, "*");
+        addButton(buttonPanel, "MOD");
                 
         JButton equalsButton = new JButton("=");
         equalsButton.setActionCommand("=");
@@ -169,13 +170,23 @@ class added {
      */
     public static float calcola(float left, char calcOperation, float right){
         if (calcOperation == '+') {
-            return left  + right;
+            return left + right;
         }
         else if (calcOperation == '-') {
-            return left  - right;    
+            return left - right;    
         }
-        
-        return 0;
+        else if (calcOperation == '/') {
+            return left / right;    
+        }
+        else if (calcOperation == '*') {
+            return left * right;    
+        }
+        else if (calcOperation == 'M') {
+            return left % right;    
+        }
+        else {
+            return 0;
+        }
     }
 
 }
