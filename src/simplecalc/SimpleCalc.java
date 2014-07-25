@@ -95,7 +95,12 @@ public class SimpleCalc implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent event) {
                 if (!numberCalc.getText().isEmpty())
-                    calcola();
+                    numberCalc.setText( Integer.toString( 
+                        (int)added.calcola( 
+                                (float)currentCalc , calcOperation , 
+                                Float.parseFloat(numberCalc.getText()) 
+                        ) 
+                    ) );
             }
         });
         
@@ -133,22 +138,6 @@ public class SimpleCalc implements ActionListener{
         
     }
 
-    /**
-     *
-     */
-    public void calcola(){
-        int number = Integer.parseInt(numberCalc.getText()); 
-        if (calcOperation == 1)
-        {
-            int calculate = currentCalc  + number;
-            numberCalc.setText(Integer.toString(calculate));
-        }
-        else if (calcOperation == 2)
-        {
-            int calculate = currentCalc  - number;
-            numberCalc.setText(Integer.toString(calculate));
-        }
-    }
 
     private class OperatorAction implements ActionListener {
         private int operator;
@@ -159,7 +148,12 @@ public class SimpleCalc implements ActionListener{
         
         public void actionPerformed(ActionEvent event) {
             currentCalc = Integer.parseInt(numberCalc.getText());
-            calcola();
+            numberCalc.setText( Integer.toString( 
+                    (int)added.calcola( 
+                            (float)currentCalc , calcOperation , 
+                            Float.parseFloat(numberCalc.getText()) 
+                    ) 
+            ) );
             numberCalc.setText( "" );
             calcOperation = operator;
         }
@@ -175,5 +169,20 @@ class added {
             }
         catch(Exception e){return false;}
     }
+
+    /**
+     *
+     */
+    public static float calcola(float left, int calcOperation, float right){
+        if (calcOperation == 1) {
+            return left  + right;
+        }
+        else if (calcOperation == 2) {
+            return left  - right;    
+        }
+        
+        return 0;
+    }
+
 }
 ////////////////////////////////////////////////////////////////////////////////
