@@ -24,7 +24,7 @@ public class SimpleCalc implements ActionListener{
     JFrame guiFrame;
     JPanel buttonPanel;
     JTextField numberCalc;
-    int calcOperation = 0;
+    char calcOperation ;
     int currentCalc;
     
     //Note: Typically the main method will be in a
@@ -78,17 +78,9 @@ public class SimpleCalc implements ActionListener{
         addButton(buttonPanel, String.valueOf(0));
         addButton(buttonPanel, String.valueOf(0));
         addButton(buttonPanel, String.valueOf(0));
-        
-        JButton additionButton = new JButton("+");
-        additionButton.setActionCommand("+");
-        OperatorAction additionAction = new OperatorAction(1);
-        additionButton.addActionListener(additionAction);
-        
-        JButton subtractionButton = new JButton("-");
-        subtractionButton.setActionCommand("-");
-        OperatorAction subtractionAction = new OperatorAction(2);
-        subtractionButton.addActionListener(subtractionAction);
-        
+        addButton(buttonPanel, "+");
+        addButton(buttonPanel, "-");
+                
         JButton equalsButton = new JButton("=");
         equalsButton.setActionCommand("=");
         equalsButton.addActionListener(new ActionListener() {
@@ -104,8 +96,6 @@ public class SimpleCalc implements ActionListener{
             }
         });
         
-        buttonPanel.add(additionButton);
-        buttonPanel.add(subtractionButton);
         buttonPanel.add(equalsButton);
         
         guiFrame.setVisible(true);  
@@ -116,7 +106,12 @@ public class SimpleCalc implements ActionListener{
     private void addButton(Container parent, String name) {
         JButton but = new JButton(name);
         but.setActionCommand(name);
-        but.addActionListener(this);
+        if ( !added.isIntNumber(name) ) {
+            OperatorAction operator = new OperatorAction(name.charAt(0));
+            but.addActionListener(operator);
+        } else {
+            but.addActionListener(this);
+        }
         parent.add(but);
     }
     
@@ -138,11 +133,10 @@ public class SimpleCalc implements ActionListener{
         
     }
 
-
     private class OperatorAction implements ActionListener {
-        private int operator;
+        private char operator;
         
-        public OperatorAction(int operation) {
+        public OperatorAction(char operation) {
             operator = operation;
         }
         
@@ -173,11 +167,11 @@ class added {
     /**
      *
      */
-    public static float calcola(float left, int calcOperation, float right){
-        if (calcOperation == 1) {
+    public static float calcola(float left, char calcOperation, float right){
+        if (calcOperation == '+') {
             return left  + right;
         }
-        else if (calcOperation == 2) {
+        else if (calcOperation == '-') {
             return left  - right;    
         }
         
