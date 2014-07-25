@@ -91,11 +91,8 @@ public class SimpleCalc implements ActionListener{
     private void addButton(Container parent, String name) {
         JButton but = new JButton(name);
         but.setActionCommand(name);
-        if ( !added.isIntNumber(name) && name != "=" ) {
+        if ( !added.isIntNumber(name) ) {
             but.addActionListener( new OperatorAction(name) );
-        } 
-        else if ( name == "=" ) {
-            but.addActionListener( new EqualAction() );
         } 
         else {
             but.addActionListener(this);
@@ -129,30 +126,23 @@ public class SimpleCalc implements ActionListener{
         }
         
         public void actionPerformed(ActionEvent event) {
-            currentCalc = Integer.parseInt(numberCalc.getText());
-            numberCalc.setText( Integer.toString( 
-                    (int)added.calcola( 
-                            (float)currentCalc , 
-                            calcOperation , 
-                            Float.parseFloat(numberCalc.getText()) 
-                    ) 
-            ) );
-            numberCalc.setText( "" );
-            calcOperation = operator;
-        }
-    }
-
-    private class EqualAction implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
+            if (operator != "=") {
+                currentCalc = Integer.parseInt(numberCalc.getText());
+            }
             String schermo = numberCalc.getText();
-            if ( !schermo.isEmpty() )
+            if ( !schermo.isEmpty() ) {
                 numberCalc.setText( Integer.toString( 
-                    (int)added.calcola( 
-                            (float)currentCalc , 
-                            calcOperation , 
-                            Float.parseFloat(schermo) 
-                    ) 
+                        (int)added.calcola( 
+                                (float)currentCalc , 
+                                calcOperation , 
+                                Float.parseFloat(schermo) 
+                        ) 
                 ) );
+            }
+            if (operator != "=") {
+                numberCalc.setText( "" );
+                calcOperation = operator;
+            }
         }
     }
 }
