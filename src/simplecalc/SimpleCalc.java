@@ -52,40 +52,35 @@ public class SimpleCalc implements ActionListener{
     public SimpleCalc()
     {
         guiFrame = new JFrame();
-        
         //make sure the program exits when the frame closes
         guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         guiFrame.setTitle("Simple Calculator");
         guiFrame.setSize(300,300);
-      
         //This will center the JFrame in the middle of the screen
         guiFrame.setLocationRelativeTo(null);
         
         prevCalc = new JTextField();
         prevCalc.setHorizontalAlignment(JTextField.RIGHT);
         prevCalc.setEditable(false);
-        
         guiFrame.add(prevCalc, BorderLayout.NORTH);
         
         numberCalc = new JTextField();
         numberCalc.setHorizontalAlignment(JTextField.RIGHT);
         numberCalc.setEditable(false);
-        
         guiFrame.add(numberCalc, BorderLayout.CENTER);
         
         buttonPanel = new JPanel();
-               
         //Make a Grid that has three rows and four columns
         buttonPanel.setLayout(new GridLayout(6,3));   
         guiFrame.add(buttonPanel, BorderLayout.SOUTH);
         
         //Add the number buttons
-        for (int i=1;i<10;i++)
-        {
+        for (int i=1;i<10;i++) {
             addButton(buttonPanel, String.valueOf(i));
         }
         addButton(buttonPanel, "0");
         addButton(buttonPanel, "C");
+        addButton(buttonPanel, ".");
         addButton(buttonPanel, "+");
         addButton(buttonPanel, "-");
         addButton(buttonPanel, "/");
@@ -101,7 +96,7 @@ public class SimpleCalc implements ActionListener{
     private void addButton(Container parent, String name) {
         JButton but = new JButton(name);
         but.setActionCommand(name);
-        if ( !usoComune.isIntNumber(name) && !name.equals("C") ) {
+        if ( !usoComune.isIntNumber(name) && !name.equals("C") && !name.equals(".") ) {
             but.addActionListener( new OperatorAction(name) );
         } 
         else {
@@ -119,12 +114,12 @@ public class SimpleCalc implements ActionListener{
         String action = event.getActionCommand();
         
         //set the text using the Action Command text
-        if ( action.equals("C") ){
-            String temp = numberCalc.getText();
+        String temp = numberCalc.getText();
+        if ( action.equals("C") && !temp.isEmpty() ){
             numberCalc.setText( temp.substring(0, temp.length()-1) );  
         }
         else {
-            numberCalc.setText( numberCalc.getText() + action );  
+            numberCalc.setText( temp + action );  
         }
         
     }
@@ -138,15 +133,14 @@ public class SimpleCalc implements ActionListener{
         
         public void actionPerformed(ActionEvent event) {
             String schermo = numberCalc.getText();
-            if ( !schermo.isEmpty() ) {
-                numberCalc.setText( Integer.toString( 
-                        (int)usoComune.calcola( 
-                            currentCalc , 
-                            calcOperation , 
-                            Float.parseFloat(schermo) 
-                        ) 
-                ) );
-                currentCalc = Integer.parseInt(schermo);
+            float result = 0;
+            if ( usoComune.isFloatNumber(schermo) ) {
+                result = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
+                if ( (result-(int)result) == 0 )
+                    numberCalc.setText( Integer.toString( (int)result ) );
+                else
+                    numberCalc.setText( Float.toString( result ) );
+                currentCalc = Float.parseFloat(schermo);
             }
             if (!operator.equals("=")) {
                 numberCalc.setText( "" );
@@ -157,16 +151,23 @@ public class SimpleCalc implements ActionListener{
                 currentCalc = 0;
                 prevCalc.setText(numberCalc.getText());
             }
-        }
-        
-        
+        }      
     }
+
 }
 ////////////////////////////////////////////////////////////////////////////////
 class usoComune {
     public static boolean isIntNumber(String numero) {
         try {
             Integer.parseInt(numero);
+            return true;
+            }
+        catch(Exception e){return false;}
+    }
+
+    public static boolean isFloatNumber(String numero) {
+        try {
+            Float.parseFloat(numero);
             return true;
             }
         catch(Exception e){return false;}
