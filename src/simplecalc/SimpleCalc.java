@@ -133,17 +133,9 @@ public class SimpleCalc implements ActionListener{
         
         public void actionPerformed(ActionEvent event) {
             String schermo = numberCalc.getText();
-            float result = 0;
             if ( usoComune.isFloatNumber(schermo) ) {
-                if (currentCalc != 0)
-                    result = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
-                else
-                    result = Float.parseFloat(schermo);
-                if ( (result-(int)result) == 0 )
-                    numberCalc.setText( Integer.toString( (int)result ) );
-                else
-                    numberCalc.setText( Float.toString( result ) );
-                currentCalc = result;
+                currentCalc = (currentCalc != 0) ? usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) ) : Float.parseFloat(schermo);
+                numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
             }
             if (!operator.equals("=")) {
                 numberCalc.setText( "" );
