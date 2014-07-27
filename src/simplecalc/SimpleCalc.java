@@ -28,7 +28,7 @@ public class SimpleCalc implements ActionListener{
     JTextField numberCalc;
     
     String calcOperation ;
-    float currentCalc;
+    float currentCalc = 0;
     
     //Note: Typically the main method will be in a
     //separate class. As this is a simple one class
@@ -135,12 +135,15 @@ public class SimpleCalc implements ActionListener{
             String schermo = numberCalc.getText();
             float result = 0;
             if ( usoComune.isFloatNumber(schermo) ) {
-                result = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
+                if (currentCalc != 0)
+                    result = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
+                else
+                    result = Float.parseFloat(schermo);
                 if ( (result-(int)result) == 0 )
                     numberCalc.setText( Integer.toString( (int)result ) );
                 else
                     numberCalc.setText( Float.toString( result ) );
-                currentCalc = Float.parseFloat(schermo);
+                currentCalc = result;
             }
             if (!operator.equals("=")) {
                 numberCalc.setText( "" );
