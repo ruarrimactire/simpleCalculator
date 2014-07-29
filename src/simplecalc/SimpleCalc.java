@@ -71,7 +71,7 @@ public class SimpleCalc implements ActionListener{
         
         buttonPanel = new JPanel();
         //Make a Grid that has three rows and four columns
-        buttonPanel.setLayout(new GridLayout(6,3));   
+        buttonPanel.setLayout(new GridLayout(7,3));   
         guiFrame.add(buttonPanel, BorderLayout.SOUTH);
         
         //Add the number buttons
@@ -79,8 +79,9 @@ public class SimpleCalc implements ActionListener{
             addButton(buttonPanel, String.valueOf(i));
         }
         addButton(buttonPanel, "0");
-        addButton(buttonPanel, "C");
         addButton(buttonPanel, ".");
+        addButton(buttonPanel, "(-)");
+        addButton(buttonPanel, "C");
         addButton(buttonPanel, "+");
         addButton(buttonPanel, "-");
         addButton(buttonPanel, "/");
@@ -96,7 +97,7 @@ public class SimpleCalc implements ActionListener{
     private void addButton(Container parent, String name) {
         JButton but = new JButton(name);
         but.setActionCommand(name);
-        if ( !usoComune.isIntNumber(name) && !name.equals("C") && !name.equals(".") ) {
+        if ( !usoComune.isIntNumber(name) && !name.equals("C") && !name.equals(".") && !name.equals("(-)") ) {
             but.addActionListener( new OperatorAction(name) );
         } 
         else {
@@ -115,8 +116,12 @@ public class SimpleCalc implements ActionListener{
         
         //set the text using the Action Command text
         String temp = numberCalc.getText();
+        float number = (usoComune.isFloatNumber(temp)) ? Float.parseFloat(temp) : 0 ;
         if ( action.equals("C") && !temp.isEmpty() ){
             numberCalc.setText( temp.substring(0, temp.length()-1) );  
+        }
+        else if ( action.equals("(-)") && !temp.isEmpty() ){
+            numberCalc.setText( Float.toString(-number) );  
         }
         else {
             numberCalc.setText( temp + action );  
