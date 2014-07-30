@@ -27,7 +27,7 @@ public class SimpleCalc implements ActionListener{
     JTextField prevCalc;
     JTextField numberCalc;
     
-    String calcOperation ;
+    String calcOperation = "";
     float currentCalc = 0;
     
     //Note: Typically the main method will be in a
@@ -138,20 +138,35 @@ public class SimpleCalc implements ActionListener{
         
         public void actionPerformed(ActionEvent event) {
             String schermo = numberCalc.getText();
-            if ( usoComune.isFloatNumber(schermo) ) {
-                currentCalc = (currentCalc != 0) ? usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) ) : Float.parseFloat(schermo);
-                numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
-            }
-            if (!operator.equals("=")) {
-                numberCalc.setText( "" );
-                calcOperation = operator;
-                prevCalc.setText(Float.toString(currentCalc) + " " + operator);
+            if(operator.equals("=")) {
+                if(calcOperation == ""){
+                    if ( usoComune.isFloatNumber(schermo) ) 
+                        currentCalc = Float.parseFloat(schermo);
+                }
+                else {
+                    if ( usoComune.isFloatNumber(schermo) ) {
+                        currentCalc = (currentCalc != 0) ? usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) ) : Float.parseFloat(schermo);
+                        numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
+                    }
+                    calcOperation = "";
+                }
+                prevCalc.setText("");
             }
             else {
-                currentCalc = 0;
-                prevCalc.setText(numberCalc.getText());
+                // currentCalc = 0; //////////
+                if(calcOperation == ""){
+                    if ( usoComune.isFloatNumber(schermo) ) 
+                        currentCalc = Float.parseFloat(schermo);
+                }
+                else {
+                    if ( usoComune.isFloatNumber(schermo) ) 
+                        currentCalc = (currentCalc != 0) ? usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) ) : Float.parseFloat(schermo);
+                }
+                calcOperation = operator;
+                prevCalc.setText(Float.toString(currentCalc) + " " + calcOperation);
+                numberCalc.setText( "" );
             }
-        }      
+        }
     }
 
 }
