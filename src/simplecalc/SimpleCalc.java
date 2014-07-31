@@ -120,8 +120,11 @@ public class SimpleCalc implements ActionListener{
         if ( action.equals("C") && !temp.isEmpty() ){
             numberCalc.setText( temp.substring(0, temp.length()-1) );  
         }
-        else if ( action.equals("(-)") && !temp.isEmpty() ){
-            numberCalc.setText( Float.toString(-number) );  
+        else if ( action.equals("(-)") ){
+            if(temp.isEmpty())
+                numberCalc.setText( "-" );  
+            else
+                numberCalc.setText( Float.toString(-number) );  
         }
         else {
             numberCalc.setText( temp + action );  
@@ -138,30 +141,28 @@ public class SimpleCalc implements ActionListener{
         
         public void actionPerformed(ActionEvent event) {
             String schermo = numberCalc.getText();
-            if(operator.equals("=")) {
+
+            if ( usoComune.isFloatNumber(schermo) ) {
                 if(calcOperation == ""){
-                    if ( usoComune.isFloatNumber(schermo) ) 
-                        currentCalc = Float.parseFloat(schermo);
+                    currentCalc = Float.parseFloat(schermo);
                 }
                 else {
-                    if ( usoComune.isFloatNumber(schermo) ) {
+                    if(operator.equals("=")) {
                         currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
                         numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
+                        calcOperation = "";
                     }
-                    calcOperation = "";
+                    else {
+                        currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
+                    }
                 }
-                prevCalc.setText("");
             }
+            else
+                calcOperation = "";
+
+            if(operator.equals("=")) 
+                prevCalc.setText("");
             else {
-                // currentCalc = 0; //////////
-                if(calcOperation == ""){
-                    if ( usoComune.isFloatNumber(schermo) ) 
-                        currentCalc = Float.parseFloat(schermo);
-                }
-                else {
-                    if ( usoComune.isFloatNumber(schermo) ) 
-                        currentCalc = (currentCalc != 0) ? usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) ) : Float.parseFloat(schermo);
-                }
                 calcOperation = operator;
                 prevCalc.setText(Float.toString(currentCalc) + " " + calcOperation);
                 numberCalc.setText( "" );
