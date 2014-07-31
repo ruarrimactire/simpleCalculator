@@ -142,26 +142,18 @@ public class SimpleCalc implements ActionListener{
         public void actionPerformed(ActionEvent event) {
             String schermo = numberCalc.getText();
             if ( usoComune.isFloatNumber(schermo) ) {
-                if(calcOperation == ""){
-                    currentCalc = Float.parseFloat(schermo);
-                }
-                else {
-                    if(operator.equals("=")) {
-                        currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
-                        numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
-                    }
-                    else {
-                        currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
-                    }
-                }
+                currentCalc = (calcOperation != "") ? usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) ) : Float.parseFloat(schermo);
+                numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
             }
-            calcOperation = "";
-            if(operator.equals("=")) 
-                prevCalc.setText("");
-            else {
-                calcOperation = operator;
-                prevCalc.setText(Float.toString(currentCalc) + " " + calcOperation);
+            if (!operator.equals("=")) {
                 numberCalc.setText( "" );
+                calcOperation = operator;
+                prevCalc.setText(Float.toString(currentCalc) + " " + operator);
+            }
+            else {
+//                currentCalc = 0;
+                calcOperation = "";
+                prevCalc.setText(numberCalc.getText());
             }
         }
     }
