@@ -27,7 +27,7 @@ public class SimpleCalc implements ActionListener{
     JTextField prevCalc;
     JTextField numberCalc;
     
-    String calcOperation ;
+    String calcOperation = "";
     float currentCalc = 0;
     
     //Note: Typically the main method will be in a
@@ -120,9 +120,12 @@ public class SimpleCalc implements ActionListener{
         if ( action.equals("C") && !temp.isEmpty() ){
             numberCalc.setText( temp.substring(0, temp.length()-1) );  
         }
-        else if ( action.equals("(-)") && !temp.isEmpty() ){
-            numberCalc.setText( Float.toString(-number) );  
-        }
+        else if ( action.equals("(-)") ){
+            if(temp.isEmpty())
+                numberCalc.setText( "-" );  
+            else
+                numberCalc.setText( Float.toString(-number) );  
+        }        
         else {
             numberCalc.setText( temp + action );  
         }
