@@ -142,22 +142,18 @@ public class SimpleCalc implements ActionListener{
         public void actionPerformed(ActionEvent event) {
             String schermo = numberCalc.getText();
             if ( usoComune.isFloatNumber(schermo) ) {
-                if(calcOperation == ""){
-                    currentCalc = Float.parseFloat(schermo);
-                }
-                else {
-                    currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
-                }
-            }
-            if(operator.equals("=")) {
+                currentCalc = (calcOperation != "") ? usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) ) : Float.parseFloat(schermo);
                 numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
-                calcOperation = "";
-                prevCalc.setText("");
+            }
+            if (!operator.equals("=")) {
+                numberCalc.setText( "" );
+                calcOperation = operator;
+                prevCalc.setText(Float.toString(currentCalc) + " " + operator);
             }
             else {
-                calcOperation = operator;
-                prevCalc.setText(Float.toString(currentCalc) + " " + calcOperation);
-                numberCalc.setText( "" );
+//                currentCalc = 0;
+                calcOperation = "";
+                prevCalc.setText(numberCalc.getText());
             }
         }
     }
