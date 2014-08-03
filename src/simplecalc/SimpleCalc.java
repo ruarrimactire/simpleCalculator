@@ -146,13 +146,9 @@ public class SimpleCalc implements ActionListener{
                     currentCalc = Float.parseFloat(schermo);
                 }
                 else {
-                    if(operator.equals("=")) {
-                        currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
+                    currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
+                    if(operator.equals("=")) 
                         numberCalc.setText( ( (currentCalc-(int)currentCalc) == 0 ) ? Integer.toString( (int)currentCalc ) : Float.toString( currentCalc ) );
-                    }
-                    else {
-                        currentCalc = usoComune.calcola( currentCalc , calcOperation , Float.parseFloat(schermo) );
-                    }
                 }
             }
             calcOperation = "";
